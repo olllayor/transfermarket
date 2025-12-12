@@ -4,9 +4,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcryptjs';
 import { Model } from 'mongoose';
 
+import { User, type UserDocument } from './user.schema';
+
 import type { Role } from '@/common/decorators/roles.decorator';
 
-import { User, type UserDocument } from './user.schema';
 
 const hashAsync = (password: string, saltRounds: number): Promise<string> =>
   new Promise((resolve, reject) => {

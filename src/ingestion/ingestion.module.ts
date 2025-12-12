@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { IngestionRun, IngestionRunSchema } from './ingestion-run.schema';
+import { IngestionController } from './ingestion.controller';
+import { IngestionService } from './ingestion.service';
+
 import { Club, ClubSchema } from '@/clubs/club.schema';
 import { News, NewsSchema } from '@/news/news.schema';
 import { Player, PlayerSchema } from '@/players/player.schema';
 import { Transfer, TransferSchema } from '@/transfers/transfer.schema';
 
-import { IngestionController } from './ingestion.controller';
-import { IngestionRun, IngestionRunSchema } from './ingestion-run.schema';
-import { IngestionService } from './ingestion.service';
 
 @Module({
   imports: [

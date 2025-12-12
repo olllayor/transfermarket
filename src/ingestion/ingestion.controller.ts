@@ -12,11 +12,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { memoryStorage } from 'multer';
 
+import { IngestionService } from './ingestion.service';
+
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { Roles } from '@/common/decorators/roles.decorator';
 import { RolesGuard } from '@/common/guards/roles.guard';
 
-import { IngestionService } from './ingestion.service';
 
 @ApiTags('admin.ingestion')
 @ApiBearerAuth()

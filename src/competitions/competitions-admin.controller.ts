@@ -1,12 +1,13 @@
 import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 
+import { CompetitionsService } from './competitions.service';
+import { CreateCompetitionDto, UpdateCompetitionDto } from './dto/competition.dto';
+
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { Roles } from '@/common/decorators/roles.decorator';
 import { RolesGuard } from '@/common/guards/roles.guard';
 
-import { CompetitionsService } from './competitions.service';
-import { CreateCompetitionDto, UpdateCompetitionDto } from './dto/competition.dto';
 
 @ApiTags('admin.competitions')
 @ApiBearerAuth()

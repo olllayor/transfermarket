@@ -2,11 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
+import { type CreateMatchDto, type MatchesQueryDto, type UpdateMatchDto } from './dto/match.dto';
+import { Match, type MatchDocument } from './match.schema';
+
 import type { PaginatedResult } from '@/common/dtos/pagination.dto';
 import { type RecordStatus } from '@/common/schema/provenance.schema';
 
-import { Match, type MatchDocument } from './match.schema';
-import { type CreateMatchDto, type MatchesQueryDto, type UpdateMatchDto } from './dto/match.dto';
 
 @Injectable()
 export class MatchesService {
@@ -60,7 +61,7 @@ export class MatchesService {
     const limit = query.limit ?? 20;
     const skip = (page - 1) * limit;
 
-    const filter: Record<string, any> = {};
+    const filter: Record<string, unknown> = {};
     if (query.competitionId) filter.competitionId = new Types.ObjectId(query.competitionId);
     if (query.season) filter.season = query.season;
     if (query.clubId) {

@@ -1,0 +1,93 @@
+npm warn Unknown env config "python". This will stop working in the next major version of npm.
+
+> ca-football-backend@0.1.0 lint
+> eslint "{src,test,scripts}/**/*.ts" --max-warnings=0
+
+
+/home/engine/project/src/app.module.ts
+  7:1  error  `@nestjs/core` import should occur before import of `@nestjs/mongoose`  import/order
+
+/home/engine/project/src/auth/auth.module.ts
+  6:1  error  `@/users/users.module` import should occur after import of `./jwt.strategy`  import/order
+
+/home/engine/project/src/clubs/clubs-admin.controller.ts
+  8:1  error  `./clubs.service` import should occur before import of `@/auth/jwt-auth.guard`  import/order
+  9:1  error  `./dto/club.dto` import should occur before import of `@/auth/jwt-auth.guard`   import/order
+
+/home/engine/project/src/clubs/clubs.module.ts
+  4:1  error  `@/matches/match.schema` import should occur after import of `./clubs.service`       import/order
+  5:1  error  `@/players/player.schema` import should occur after import of `./clubs.service`      import/order
+  6:1  error  `@/transfers/transfer.schema` import should occur after import of `./clubs.service`  import/order
+
+/home/engine/project/src/clubs/clubs.service.ts
+  12:1  error  `./club.schema` import should occur before type import of `@/common/dtos/pagination.dto`   import/order
+  13:1  error  `./dto/club.dto` import should occur before type import of `@/common/dtos/pagination.dto`  import/order
+
+/home/engine/project/src/competitions/competitions-admin.controller.ts
+  8:1  error  `./competitions.service` import should occur before import of `@/auth/jwt-auth.guard`  import/order
+  9:1  error  `./dto/competition.dto` import should occur before import of `@/auth/jwt-auth.guard`   import/order
+
+/home/engine/project/src/competitions/competitions.service.ts
+   9:1  error  `./competition.schema` import should occur before type import of `@/common/dtos/pagination.dto`   import/order
+  10:1  error  `./dto/competition.dto` import should occur before type import of `@/common/dtos/pagination.dto`  import/order
+
+/home/engine/project/src/ingestion/ingestion.controller.ts
+  19:1  error  `./ingestion.service` import should occur before import of `@/auth/jwt-auth.guard`  import/order
+
+/home/engine/project/src/ingestion/ingestion.module.ts
+   9:1  error  `./ingestion.controller` import should occur before import of `@/clubs/club.schema`  import/order
+  10:1  error  `./ingestion-run.schema` import should occur before import of `@/clubs/club.schema`  import/order
+  11:1  error  `./ingestion.service` import should occur before import of `@/clubs/club.schema`     import/order
+
+/home/engine/project/src/ingestion/ingestion.service.ts
+  13:1  error  `./ingestion-run.schema` import should occur before import of `@/clubs/club.schema`  import/order
+
+/home/engine/project/src/matches/matches-admin.controller.ts
+  8:1  error  `./dto/match.dto` import should occur before import of `@/auth/jwt-auth.guard`    import/order
+  9:1  error  `./matches.service` import should occur before import of `@/auth/jwt-auth.guard`  import/order
+
+/home/engine/project/src/matches/matches.controller.ts
+  5:1  error  `./dto/match.dto` import should occur before import of `./matches.service`  import/order
+
+/home/engine/project/src/matches/matches.service.ts
+  8:1  error  `./match.schema` import should occur before type import of `@/common/dtos/pagination.dto`   import/order
+  9:1  error  `./dto/match.dto` import should occur before type import of `@/common/dtos/pagination.dto`  import/order
+
+/home/engine/project/src/news/news-admin.controller.ts
+  8:1  error  `./dto/news.dto` import should occur before import of `@/auth/jwt-auth.guard`  import/order
+  9:1  error  `./news.service` import should occur before import of `@/auth/jwt-auth.guard`  import/order
+
+/home/engine/project/src/news/news.service.ts
+   9:1  error  `./news.schema` import should occur before type import of `@/common/dtos/pagination.dto`   import/order
+  10:1  error  `./dto/news.dto` import should occur before type import of `@/common/dtos/pagination.dto`  import/order
+
+/home/engine/project/src/players/players-admin.controller.ts
+  8:1  error  `./players.service` import should occur before import of `@/auth/jwt-auth.guard`  import/order
+  9:1  error  `./dto/player.dto` import should occur before import of `@/auth/jwt-auth.guard`   import/order
+
+/home/engine/project/src/players/players.controller.ts
+  5:1  error  `./dto/player.dto` import should occur before import of `./players.service`  import/order
+
+/home/engine/project/src/players/players.module.ts
+  4:1  error  `@/news/news.schema` import should occur after import of `./players.service`           import/order
+  5:1  error  `@/transfers/transfer.schema` import should occur after import of `./players.service`  import/order
+
+/home/engine/project/src/players/players.service.ts
+   7:1  error  There should be no empty line within import group                                            import/order
+  12:1  error  `./player.schema` import should occur before type import of `@/common/dtos/pagination.dto`   import/order
+  13:1  error  `./dto/player.dto` import should occur before type import of `@/common/dtos/pagination.dto`  import/order
+
+/home/engine/project/src/transfers/transfers-admin.controller.ts
+  8:1  error  `./dto/transfer.dto` import should occur before import of `@/auth/jwt-auth.guard`   import/order
+  9:1  error  `./transfers.service` import should occur before import of `@/auth/jwt-auth.guard`  import/order
+
+/home/engine/project/src/transfers/transfers.service.ts
+  8:1  error  `./transfer.schema` import should occur before type import of `@/common/dtos/pagination.dto`   import/order
+  9:1  error  `./dto/transfer.dto` import should occur before type import of `@/common/dtos/pagination.dto`  import/order
+
+/home/engine/project/src/users/users.service.ts
+  9:1  error  `./user.schema` import should occur before type import of `@/common/decorators/roles.decorator`  import/order
+
+✖ 40 problems (40 errors, 0 warnings)
+  40 errors and 0 warnings potentially fixable with the `--fix` option.
+

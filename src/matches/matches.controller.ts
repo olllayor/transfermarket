@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 
-import { MatchesService } from './matches.service';
 import { MatchesQueryDto } from './dto/match.dto';
+import { MatchesService } from './matches.service';
 
 @ApiTags('matches')
 @Controller('matches')

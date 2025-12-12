@@ -3,11 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import slugify from 'slugify';
 
+import { type CreateNewsDto, type NewsQueryDto, type UpdateNewsDto } from './dto/news.dto';
+import { News, type NewsDocument } from './news.schema';
+
 import type { PaginatedResult } from '@/common/dtos/pagination.dto';
 import { type RecordStatus } from '@/common/schema/provenance.schema';
 
-import { News, type NewsDocument } from './news.schema';
-import { type CreateNewsDto, type NewsQueryDto, type UpdateNewsDto } from './dto/news.dto';
 
 @Injectable()
 export class NewsService {
@@ -18,7 +19,6 @@ export class NewsService {
     let slug = base;
 
     for (let i = 0; i < 20; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
       const exists = await this.newsModel.exists({ slug });
       if (!exists) {
         return slug;
@@ -63,7 +63,7 @@ export class NewsService {
     const limit = query.limit ?? 20;
     const skip = (page - 1) * limit;
 
-    const filter: Record<string, any> = {};
+    const filter: Record<string, unknown> = {};
     if (query.language) filter.language = query.language;
 
     const mongoFilter = query.q ? { ...filter, $text: { $search: query.q } } : filter;

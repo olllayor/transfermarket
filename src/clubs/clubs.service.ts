@@ -3,14 +3,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import slugify from 'slugify';
 
+import { Club, type ClubDocument } from './club.schema';
+import { type ClubsQueryDto, type CreateClubDto, type UpdateClubDto } from './dto/club.dto';
+
 import type { PaginatedResult } from '@/common/dtos/pagination.dto';
 import { type RecordStatus } from '@/common/schema/provenance.schema';
 import { Match, type MatchDocument } from '@/matches/match.schema';
 import { Player, type PlayerDocument } from '@/players/player.schema';
 import { Transfer, type TransferDocument } from '@/transfers/transfer.schema';
 
-import { Club, type ClubDocument } from './club.schema';
-import { type ClubsQueryDto, type CreateClubDto, type UpdateClubDto } from './dto/club.dto';
 
 @Injectable()
 export class ClubsService {
@@ -26,7 +27,6 @@ export class ClubsService {
     let slug = base;
 
     for (let i = 0; i < 20; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
       const exists = await this.clubModel.exists({ slug });
       if (!exists) {
         return slug;
@@ -92,7 +92,7 @@ export class ClubsService {
     const limit = query.limit ?? 20;
     const skip = (page - 1) * limit;
 
-    const filter: Record<string, any> = {};
+    const filter: Record<string, unknown> = {};
     if (query.country) {
       filter.country = query.country;
     }

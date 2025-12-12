@@ -1,12 +1,13 @@
 import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 
+import { ClubsService } from './clubs.service';
+import { CreateClubDto, UpdateClubDto } from './dto/club.dto';
+
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { Roles } from '@/common/decorators/roles.decorator';
 import { RolesGuard } from '@/common/guards/roles.guard';
 
-import { ClubsService } from './clubs.service';
-import { CreateClubDto, UpdateClubDto } from './dto/club.dto';
 
 @ApiTags('admin.clubs')
 @ApiBearerAuth()

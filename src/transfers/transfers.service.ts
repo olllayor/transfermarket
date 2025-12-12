@@ -2,11 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
+import { type CreateTransferDto, type TransfersQueryDto, type UpdateTransferDto } from './dto/transfer.dto';
+import { Transfer, type TransferDocument } from './transfer.schema';
+
 import type { PaginatedResult } from '@/common/dtos/pagination.dto';
 import { type RecordStatus } from '@/common/schema/provenance.schema';
 
-import { Transfer, type TransferDocument } from './transfer.schema';
-import { type CreateTransferDto, type TransfersQueryDto, type UpdateTransferDto } from './dto/transfer.dto';
 
 @Injectable()
 export class TransfersService {
@@ -42,7 +43,7 @@ export class TransfersService {
     const limit = query.limit ?? 20;
     const skip = (page - 1) * limit;
 
-    const filter: Record<string, any> = {};
+    const filter: Record<string, unknown> = {};
     if (query.playerId) filter.playerId = new Types.ObjectId(query.playerId);
     if (query.clubId) {
       const clubObjectId = new Types.ObjectId(query.clubId);

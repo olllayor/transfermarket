@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 
-import { PlayersService } from './players.service';
 import { PlayersQueryDto } from './dto/player.dto';
+import { PlayersService } from './players.service';
 
 @ApiTags('players')
 @Controller('players')

@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { News, NewsSchema } from '@/news/news.schema';
-import { Transfer, TransferSchema } from '@/transfers/transfer.schema';
 
 import { Player, PlayerSchema } from './player.schema';
 import { PlayersAdminController } from './players-admin.controller';
 import { PlayersController } from './players.controller';
 import { PlayersService } from './players.service';
+
+import { News, NewsSchema } from '@/news/news.schema';
+import { Transfer, TransferSchema } from '@/transfers/transfer.schema';
 
 @Module({
   imports: [

@@ -3,14 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import slugify from 'slugify';
 
+import { type CreatePlayerDto, type PlayersQueryDto, type UpdatePlayerDto } from './dto/player.dto';
+import { Player, type PlayerDocument } from './player.schema';
+
 import type { PaginatedResult } from '@/common/dtos/pagination.dto';
 import { type RecordStatus } from '@/common/schema/provenance.schema';
-
 import { News, type NewsDocument } from '@/news/news.schema';
 import { Transfer, type TransferDocument } from '@/transfers/transfer.schema';
 
-import { Player, type PlayerDocument } from './player.schema';
-import { type CreatePlayerDto, type PlayersQueryDto, type UpdatePlayerDto } from './dto/player.dto';
 
 @Injectable()
 export class PlayersService {
@@ -25,7 +25,6 @@ export class PlayersService {
     let slug = base;
 
     for (let i = 0; i < 20; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
       const exists = await this.playerModel.exists({ slug });
       if (!exists) {
         return slug;
@@ -116,7 +115,7 @@ export class PlayersService {
     const limit = query.limit ?? 20;
     const skip = (page - 1) * limit;
 
-    const filter: Record<string, any> = {};
+    const filter: Record<string, unknown> = {};
     if (query.clubId) {
       filter.currentClubId = new Types.ObjectId(query.clubId);
     }

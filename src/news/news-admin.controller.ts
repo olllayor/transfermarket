@@ -1,12 +1,13 @@
 import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 
+import { CreateNewsDto, UpdateNewsDto } from './dto/news.dto';
+import { NewsService } from './news.service';
+
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { Roles } from '@/common/decorators/roles.decorator';
 import { RolesGuard } from '@/common/guards/roles.guard';
 
-import { CreateNewsDto, UpdateNewsDto } from './dto/news.dto';
-import { NewsService } from './news.service';
 
 @ApiTags('admin.news')
 @ApiBearerAuth()

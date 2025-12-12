@@ -15,6 +15,9 @@ module.exports = tseslint.config(
         tsconfigRootDir: __dirname,
       },
     },
+    settings: {
+      'import/internal-regex': '^@/',
+    },
     plugins: {
       import: importPlugin,
     },

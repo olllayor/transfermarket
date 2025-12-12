@@ -1,12 +1,13 @@
 import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 
+import { CreateMatchDto, UpdateMatchDto } from './dto/match.dto';
+import { MatchesService } from './matches.service';
+
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { Roles } from '@/common/decorators/roles.decorator';
 import { RolesGuard } from '@/common/guards/roles.guard';
 
-import { CreateMatchDto, UpdateMatchDto } from './dto/match.dto';
-import { MatchesService } from './matches.service';
 
 @ApiTags('admin.matches')
 @ApiBearerAuth()

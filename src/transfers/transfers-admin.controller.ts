@@ -1,12 +1,13 @@
 import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 
+import { CreateTransferDto, UpdateTransferDto } from './dto/transfer.dto';
+import { TransfersService } from './transfers.service';
+
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { Roles } from '@/common/decorators/roles.decorator';
 import { RolesGuard } from '@/common/guards/roles.guard';
 
-import { CreateTransferDto, UpdateTransferDto } from './dto/transfer.dto';
-import { TransfersService } from './transfers.service';
 
 @ApiTags('admin.transfers')
 @ApiBearerAuth()

@@ -4,12 +4,14 @@ import { parse } from 'csv-parse/sync';
 import { Model, Types } from 'mongoose';
 import slugify from 'slugify';
 
+import { IngestionRun, type IngestionRunDocument } from './ingestion-run.schema';
+
 import { Club, type ClubDocument } from '@/clubs/club.schema';
+import { getErrorMessage } from '@/common/utils/error.util';
 import { News, type NewsDocument } from '@/news/news.schema';
 import { Player, type PlayerDocument } from '@/players/player.schema';
 import { Transfer, type TransferDocument } from '@/transfers/transfer.schema';
 
-import { IngestionRun, type IngestionRunDocument } from './ingestion-run.schema';
 
 export type IngestionResult = {
   runId: string;
@@ -87,7 +89,6 @@ export class IngestionService {
           ? { slug, dateOfBirth: dob }
           : { slug };
 
-      // eslint-disable-next-line no-await-in-loop
       const existing = await this.playerModel.findOne(query).exec();
 
       const source = {
@@ -104,7 +105,6 @@ export class IngestionService {
 
       if (!existing) {
         try {
-          // eslint-disable-next-line no-await-in-loop
           await this.playerModel.create({
             name,
             fullName: row.fullName,
@@ -116,8 +116,8 @@ export class IngestionService {
             provenance: { sources: [source], status: 'pending' },
           });
           run.created += 1;
-        } catch (e: any) {
-          run.errors.push(`Row ${idx + 1}: ${e?.message ?? 'Unknown error'}`);
+        } catch (e: unknown) {
+          run.errors.push(`Row ${idx + 1}: ${getErrorMessage(e)}`);
         }
         continue;
       }
@@ -130,11 +130,10 @@ export class IngestionService {
       existing.provenance.sources = [...(existing.provenance.sources ?? []), source];
 
       try {
-        // eslint-disable-next-line no-await-in-loop
         await existing.save();
         run.updated += 1;
-      } catch (e: any) {
-        run.errors.push(`Row ${idx + 1}: ${e?.message ?? 'Unknown error'}`);
+      } catch (e: unknown) {
+        run.errors.push(`Row ${idx + 1}: ${getErrorMessage(e)}`);
       }
     }
 
@@ -175,7 +174,6 @@ export class IngestionService {
 
       const slug = this.toSlug(name);
       const query = { slug, country };
-      // eslint-disable-next-line no-await-in-loop
       const existing = await this.clubModel.findOne(query).exec();
 
       const source = {
@@ -191,7 +189,6 @@ export class IngestionService {
 
       if (!existing) {
         try {
-          // eslint-disable-next-line no-await-in-loop
           await this.clubModel.create({
             name,
             slug,
@@ -207,14 +204,15 @@ export class IngestionService {
             provenance: { sources: [source], status: 'pending' },
           });
           run.created += 1;
-        } catch (e: any) {
-          run.errors.push(`Row ${idx + 1}: ${e?.message ?? 'Unknown error'}`);
+        } catch (e: unknown) {
+          run.errors.push(`Row ${idx + 1}: ${getErrorMessage(e)}`);
         }
         continue;
       }
 
       existing.city = existing.city ?? row.city;
-      existing.foundedYear = existing.foundedYear ?? (row.foundedYear ? Number(row.foundedYear) : undefined);
+      existing.foundedYear =
+        existing.foundedYear ?? (row.foundedYear ? Number(row.foundedYear) : undefined);
       existing.stadium = existing.stadium ?? {
         name: row.stadiumName,
         capacity: row.stadiumCapacity ? Number(row.stadiumCapacity) : undefined,
@@ -225,11 +223,10 @@ export class IngestionService {
       existing.provenance.sources = [...(existing.provenance.sources ?? []), source];
 
       try {
-        // eslint-disable-next-line no-await-in-loop
         await existing.save();
         run.updated += 1;
-      } catch (e: any) {
-        run.errors.push(`Row ${idx + 1}: ${e?.message ?? 'Unknown error'}`);
+      } catch (e: unknown) {
+        run.errors.push(`Row ${idx + 1}: ${getErrorMessage(e)}`);
       }
     }
 
@@ -301,11 +298,8 @@ export class IngestionService {
       }
 
       try {
-        // eslint-disable-next-line no-await-in-loop
         const player = await this.findOrCreatePlayerByName(playerName);
-        // eslint-disable-next-line no-await-in-loop
         const fromClub = row.fromClubName ? await this.findOrCreateClubByName(row.fromClubName) : undefined;
-        // eslint-disable-next-line no-await-in-loop
         const toClub = row.toClubName ? await this.findOrCreateClubByName(row.toClubName) : undefined;
 
         // very simple dedupe: same player + date + from/to
@@ -323,7 +317,6 @@ export class IngestionService {
           continue;
         }
 
-        // eslint-disable-next-line no-await-in-loop
         await this.transferModel.create({
           playerId: player._id,
           fromClubId: fromClub?._id,
@@ -347,8 +340,8 @@ export class IngestionService {
         });
 
         run.created += 1;
-      } catch (e: any) {
-        run.errors.push(`Row ${idx + 1}: ${e?.message ?? 'Unknown error'}`);
+      } catch (e: unknown) {
+        run.errors.push(`Row ${idx + 1}: ${getErrorMessage(e)}`);
       }
     }
 
@@ -388,14 +381,12 @@ export class IngestionService {
       const slug = this.toSlug(title).slice(0, 80);
 
       try {
-        // eslint-disable-next-line no-await-in-loop
         const exists = await this.newsModel.exists({ slug }).exec();
         if (exists) {
           run.skipped += 1;
           continue;
         }
 
-        // eslint-disable-next-line no-await-in-loop
         await this.newsModel.create({
           title,
           body,
@@ -422,8 +413,8 @@ export class IngestionService {
         });
 
         run.created += 1;
-      } catch (e: any) {
-        run.errors.push(`Row ${idx + 1}: ${e?.message ?? 'Unknown error'}`);
+      } catch (e: unknown) {
+        run.errors.push(`Row ${idx + 1}: ${getErrorMessage(e)}`);
       }
     }
 
