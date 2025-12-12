@@ -52,5 +52,5 @@ export class Club {
 export const ClubSchema = SchemaFactory.createForClass(Club);
 
 ClubSchema.index({ name: 'text', aliases: 'text', country: 'text', city: 'text' }, { weights: { name: 10 } });
-ClubSchema.index({ slug: 1 }, { unique: true });
+ClubSchema.index({ slug: 1, country: 1 }, { unique: true });
 ClubSchema.index({ country: 1, name: 1 });

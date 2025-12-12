@@ -81,5 +81,5 @@ export class Competition {
 export const CompetitionSchema = SchemaFactory.createForClass(Competition);
 
 CompetitionSchema.index({ name: 'text', country: 'text', region: 'text' }, { weights: { name: 10 } });
-CompetitionSchema.index({ slug: 1 }, { unique: true });
+CompetitionSchema.index({ slug: 1, country: 1 }, { unique: true });
 CompetitionSchema.index({ country: 1, type: 1, name: 1 });

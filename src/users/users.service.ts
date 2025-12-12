@@ -1,12 +1,34 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { Model } from 'mongoose';
 
 import type { Role } from '@/common/decorators/roles.decorator';
 
 import { User, type UserDocument } from './user.schema';
+
+const hashAsync = (password: string, saltRounds: number): Promise<string> =>
+  new Promise((resolve, reject) => {
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+      if (err || !hash) {
+        reject(err ?? new Error('Password hashing failed'));
+        return;
+      }
+      resolve(hash);
+    });
+  });
+
+const compareAsync = (password: string, hash: string): Promise<boolean> =>
+  new Promise((resolve, reject) => {
+    bcrypt.compare(password, hash, (err, same) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(Boolean(same));
+    });
+  });
 
 @Injectable()
 export class UsersService {
@@ -29,7 +51,7 @@ export class UsersService {
       throw new ConflictException('User already exists');
     }
 
-    const passwordHash = await bcrypt.hash(params.password, 10);
+    const passwordHash = await hashAsync(params.password, 10);
     return this.userModel.create({
       email: params.email.toLowerCase(),
       passwordHash,
@@ -38,7 +60,7 @@ export class UsersService {
   }
 
   async validatePassword(user: UserDocument, password: string): Promise<boolean> {
-    return bcrypt.compare(password, user.passwordHash);
+    return compareAsync(password, user.passwordHash);
   }
 
   async ensureAdminFromEnv(): Promise<void> {

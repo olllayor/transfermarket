@@ -14,6 +14,12 @@ export class ClubsController {
     return this.clubs.list(query);
   }
 
+  @Get(':id/profile')
+  @ApiParam({ name: 'id' })
+  profile(@Param('id') id: string) {
+    return this.clubs.getProfile(id);
+  }
+
   @Get(':id')
   @ApiParam({ name: 'id' })
   get(@Param('id') id: string) {

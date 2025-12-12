@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { memoryStorage } from 'multer';
 
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
 import { Roles } from '@/common/decorators/roles.decorator';
@@ -42,7 +43,7 @@ export class IngestionController {
   @ApiConsumes('multipart/form-data')
   @ApiQuery({ name: 'sourceName', required: true })
   @ApiQuery({ name: 'sourceUrl', required: false })
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
   importPlayers(
     @UploadedFile() file: Express.Multer.File,
     @Query('sourceName') sourceName: string,
@@ -56,7 +57,7 @@ export class IngestionController {
   @ApiConsumes('multipart/form-data')
   @ApiQuery({ name: 'sourceName', required: true })
   @ApiQuery({ name: 'sourceUrl', required: false })
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
   importClubs(
     @UploadedFile() file: Express.Multer.File,
     @Query('sourceName') sourceName: string,
@@ -70,7 +71,7 @@ export class IngestionController {
   @ApiConsumes('multipart/form-data')
   @ApiQuery({ name: 'sourceName', required: true })
   @ApiQuery({ name: 'sourceUrl', required: false })
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
   importTransfers(
     @UploadedFile() file: Express.Multer.File,
     @Query('sourceName') sourceName: string,
@@ -84,7 +85,7 @@ export class IngestionController {
   @ApiConsumes('multipart/form-data')
   @ApiQuery({ name: 'sourceName', required: true })
   @ApiQuery({ name: 'sourceUrl', required: false })
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
   importNews(
     @UploadedFile() file: Express.Multer.File,
     @Query('sourceName') sourceName: string,

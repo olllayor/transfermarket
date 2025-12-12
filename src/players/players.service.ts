@@ -92,6 +92,25 @@ export class PlayersService {
     return doc;
   }
 
+  async getProfile(id: string): Promise<{
+    player: PlayerDocument;
+    transfers: TransferDocument[];
+    news: NewsDocument[];
+  }> {
+    const player = await this.findById(id);
+
+    const [transfers, news] = await Promise.all([
+      this.transferModel.find({ playerId: player._id }).sort({ date: -1 }).limit(200).exec(),
+      this.newsModel
+        .find({ relatedPlayerIds: player._id })
+        .sort({ publishedAt: -1 })
+        .limit(50)
+        .exec(),
+    ]);
+
+    return { player, transfers, news };
+  }
+
   async list(query: PlayersQueryDto): Promise<PaginatedResult<PlayerDocument>> {
     const page = query.page ?? 1;
     const limit = query.limit ?? 20;

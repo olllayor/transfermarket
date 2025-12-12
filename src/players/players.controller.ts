@@ -14,6 +14,13 @@ export class PlayersController {
     return this.players.list(query);
   }
 
+  @Get(':id/profile')
+  @ApiParam({ name: 'id' })
+  @ApiOkResponse({ description: 'Player profile with related transfers/news' })
+  profile(@Param('id') id: string) {
+    return this.players.getProfile(id);
+  }
+
   @Get(':id')
   @ApiParam({ name: 'id' })
   @ApiOkResponse({ description: 'Player details' })

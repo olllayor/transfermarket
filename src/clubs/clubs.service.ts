@@ -64,6 +64,29 @@ export class ClubsService {
     return doc;
   }
 
+  async getProfile(id: string): Promise<{
+    club: ClubDocument;
+    squad: PlayerDocument[];
+    transfersIn: TransferDocument[];
+    transfersOut: TransferDocument[];
+    recentMatches: MatchDocument[];
+  }> {
+    const club = await this.findById(id);
+
+    const [squad, transfersIn, transfersOut, recentMatches] = await Promise.all([
+      this.playerModel.find({ currentClubId: club._id }).sort({ name: 1 }).limit(60).exec(),
+      this.transferModel.find({ toClubId: club._id }).sort({ date: -1 }).limit(200).exec(),
+      this.transferModel.find({ fromClubId: club._id }).sort({ date: -1 }).limit(200).exec(),
+      this.matchModel
+        .find({ $or: [{ homeClubId: club._id }, { awayClubId: club._id }] })
+        .sort({ date: -1 })
+        .limit(50)
+        .exec(),
+    ]);
+
+    return { club, squad, transfersIn, transfersOut, recentMatches };
+  }
+
   async list(query: ClubsQueryDto): Promise<PaginatedResult<ClubDocument>> {
     const page = query.page ?? 1;
     const limit = query.limit ?? 20;

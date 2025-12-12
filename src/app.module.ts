@@ -25,7 +25,7 @@ import { UsersModule } from './users/users.module';
       pinoHttp: {
         level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
         transport:
-          process.env.NODE_ENV === 'production'
+          process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test'
             ? undefined
             : {
                 target: 'pino-pretty',
